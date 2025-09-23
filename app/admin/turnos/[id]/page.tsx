@@ -3,10 +3,24 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import { ArrowLeft, Calendar, Clock, User, Phone, Mail, MapPin, Edit, UserX, RotateCcw } from "lucide-react"
+import { TurnosAcciones } from "./TurnosAcciones"
+import { QuickStats } from "./QuickStats"
+import { InfoMedico } from "./InfoMedico"
 
-export default function TurnoDetalle() {
+
+interface MedicoProps {
+  medico?: {
+    id: number
+    nombre: string
+    especialidad: string
+    estado: "activo" | "inactivo"
+    agenda: boolean
+  }
+}
+
+
+export default function TurnoDetalle( { medico }: MedicoProps) {
   // Mock data - en una app real vendría de la API
   const turno = {
     id: 1,
@@ -30,7 +44,7 @@ export default function TurnoDetalle() {
     motivo: "Control cardiológico de rutina",
     observaciones: "Paciente con antecedentes de hipertensión",
   }
-
+   
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -67,7 +81,7 @@ export default function TurnoDetalle() {
                     variant={
                       turno.estado === "confirmado"
                         ? "default"
-                        : turno.estado === "pendiente"
+                        : turno.estado === "pendiente de pago"
                           ? "secondary"
                           : "destructive"
                     }
@@ -96,19 +110,20 @@ export default function TurnoDetalle() {
                   </div>
                 </div>
 
-                <Separator />
 
-                <div>
+                    
+                {/* <div>
                   <p className="text-sm text-muted-foreground">Motivo de la consulta</p>
                   <p className="font-medium">{turno.motivo}</p>
-                </div>
+                </div> */}
 
-                {turno.observaciones && (
+
+                {/* {turno.observaciones && (
                   <div>
                     <p className="text-sm text-muted-foreground">Observaciones</p>
                     <p className="font-medium">{turno.observaciones}</p>
                   </div>
-                )}
+                )} */}
               </CardContent>
             </Card>
 
@@ -160,79 +175,19 @@ export default function TurnoDetalle() {
             </Card>
 
             {/* Medico Info */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Información del Médico</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Médico</p>
-                    <p className="font-medium">{turno.medico.nombre}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Especialidad</p>
-                    <p className="font-medium">{turno.medico.especialidad}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Consultorio</p>
-                    <p className="font-medium">Consultorio {turno.medico.consultorio}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <InfoMedico
+            turno={ turno }
+            > </InfoMedico>
           </div>
 
           {/* Actions Sidebar */}
           <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Acciones</CardTitle>
-                <CardDescription>Gestiona este turno</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button className="w-full bg-transparent" variant="outline">
-                  <Edit className="h-4 w-4 mr-2" />
-                  Reasignar Turno
-                </Button>
-                <Button className="w-full" variant="destructive">
-                  <UserX className="h-4 w-4 mr-2" />
-                  Marcar Ausencia
-                </Button>
-                <Button className="w-full bg-transparent" variant="outline">
-                  <RotateCcw className="h-4 w-4 mr-2" />
-                  Reprogramar
-                </Button>
-              </CardContent>
-            </Card>
+            <TurnosAcciones></TurnosAcciones>
 
             {/* Quick Stats */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Historial del Paciente</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Total turnos:</span>
-                  <span className="font-medium">12</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Ausencias:</span>
-                  <span className="font-medium text-destructive">2</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Último turno:</span>
-                  <span className="font-medium">2023-12-15</span>
-                </div>
-                <Button
-                  variant="outline"
-                  className="w-full mt-4 bg-transparent"
-                  onClick={() => (window.location.href = `/admin/pacientes/${turno.paciente.dni}`)}
-                >
-                  Ver Historial Completo
-                </Button>
-              </CardContent>
-            </Card>
+            {/* <QuickStats
+            turno={ turno }
+            ></QuickStats> */}
           </div>
         </div>
       </div>

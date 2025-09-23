@@ -13,7 +13,7 @@ export default function MedicoAgenda() {
   const [agenda, setAgenda] = useState({
     duracionTurno: 30,
     fechaVigencia: "2024-12-31",
-    horarios: [
+    horarios: [      // aca ira db
       { dia: "lunes", activo: true, horaInicio: "09:00", horaFin: "17:00" },
       { dia: "martes", activo: true, horaInicio: "09:00", horaFin: "17:00" },
       { dia: "miercoles", activo: false, horaInicio: "09:00", horaFin: "17:00" },
