@@ -24,6 +24,7 @@ import {
   LogOut,
   Settings,
 } from "lucide-react";
+import ObrasSocialesMedico from "./ObrasSocialesMedico";
 
 export default function PacienteDashboard() {
   const [activeTab, setActiveTab] = useState("mis-turnos");
@@ -93,15 +94,15 @@ export default function PacienteDashboard() {
 
   // Lista de médicos con especialidad
   const medicos = [
-    { nombre: "Dr. Carlos López", especialidad: "Cardiología" },
-    { nombre: "Dr. Maria Ross ", especialidad: "Cardiología" },
-    { nombre: "Dr. Martin Guerrero", especialidad: "Cardiología" },
-    { nombre: "Dra. Ana Martínez", especialidad: "Pediatría" },
-    { nombre: "Dra. Perez Lopez", especialidad: "Pediatría" },
-    { nombre: "Dra. Jose Armando", especialidad: "Pediatría" },
-    { nombre: "Dr. Luis Rodríguez", especialidad: "Traumatología" },
-    { nombre: "Dr. Marcos Lucas", especialidad: "Traumatología" },
-    { nombre: "Dr. Rodrigo Alfonso", especialidad: "Traumatología" },
+    { nombre: "Dr. Carlos López", especialidad: "Cardiología",obrasSociales:[ { id: 1, nombre: "OSDE", codigo: "OSDE001", activa: true }, { id: 2, nombre: "Swiss Medical", codigo: "SWISS001", activa: true }, { id: 3, nombre: "Galeno", codigo: "GAL001", activa: false }, ] },
+    { nombre: "Dr. Maria Ross ", especialidad: "Cardiología" ,obrasSociales: []},
+    { nombre: "Dr. Martin Guerrero", especialidad: "Cardiología",obrasSociales: [] },
+    { nombre: "Dra. Ana Martínez", especialidad: "Pediatría",obrasSociales: [] },
+    { nombre: "Dra. Perez Lopez", especialidad: "Pediatría" ,obrasSociales: []},
+    { nombre: "Dra. Jose Armando", especialidad: "Pediatría" , obrasSociales: []},
+    { nombre: "Dr. Luis Rodríguez", especialidad: "Traumatología",obrasSociales: [] },
+    { nombre: "Dr. Marcos Lucas", especialidad: "Traumatología" ,obrasSociales: []},
+    { nombre: "Dr. Rodrigo Alfonso", especialidad: "Traumatología",obrasSociales: [] },
   ];
 
   // Filtrar médicos según la especialidad seleccionada
@@ -510,11 +511,14 @@ export default function PacienteDashboard() {
                     Fecha: <b>{turnoAConfirmar.fecha}</b> - Hora:{" "}
                     <b>{turnoAConfirmar.hora}</b>
                   </p>
+                  <ObrasSocialesMedico
+                    obrasSociales={turnoAConfirmar.medico.obrasSociales}
+                  ></ObrasSocialesMedico>
                   <Button
                     className="w-full mb-2"
                     onClick={pagarYConfirmarTurno}
                   >
-                    Pagar turno
+                    Pagar turno 
                   </Button>
                   <Button
                     variant="outline"
