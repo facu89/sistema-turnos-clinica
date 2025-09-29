@@ -175,10 +175,10 @@ export default function MedicoAgenda() {
                   <Save className="h-4 w-4 mr-2" />
                   Guardar Agenda
                 </Button>
-                <Button variant="outline" className="w-full bg-transparent">
+                {/* <Button variant="outline" className="w-full bg-transparent">
                   <Plus className="h-4 w-4 mr-2" />
                   Agregar Excepción
-                </Button>
+                </Button> */}
                 <Button variant="destructive" className="w-full">
                   <Trash2 className="h-4 w-4 mr-2" />
                   Eliminar Agenda

@@ -19,10 +19,7 @@ export const TurnosAcciones = () => {
                   <UserX className="h-4 w-4 mr-2" />
                   Marcar Presencia
                 </Button>
-                <Button className="w-full bg-transparent" variant="outline">
-                  <RotateCcw className="h-4 w-4 mr-2" />
-                  Reprogramar
-                </Button>
+                
               </CardContent>
             </Card>
   )

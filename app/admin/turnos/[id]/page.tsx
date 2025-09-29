@@ -60,8 +60,9 @@ export default function TurnoDetalle( { medico }: MedicoProps) {
               <p className="text-sm text-muted-foreground">
                 {turno.fecha} - {turno.hora}
               </p>
-            </div>
+                   
           </div>
+        </div>
         </div>
       </header>
 
@@ -107,6 +108,10 @@ export default function TurnoDetalle( { medico }: MedicoProps) {
                         {turno.hora} ({turno.duracion})
                       </p>
                     </div>
+                    <div>
+                     <p className="text-sm text-muted-foreground">Obra Social</p>
+                    <p className="font-medium">{turno.paciente.obraSocial}</p>
+            </div>
                   </div>
                 </div>
 
@@ -166,10 +171,7 @@ export default function TurnoDetalle( { medico }: MedicoProps) {
                       <p className="font-medium">{turno.paciente.direccion}</p>
                     </div>
                   </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Obra Social</p>
-                    <p className="font-medium">{turno.paciente.obraSocial}</p>
-                  </div>
+                  
                 </div>
               </CardContent>
             </Card>
