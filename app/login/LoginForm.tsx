@@ -1,31 +1,11 @@
-"use client";
-import React from "react";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
-import { z } from "zod";
-
-export const SignupFormSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email." }).trim(),
-  password: z
-    .string()
-    .min(8, { message: "Be at least 8 characters long" })
-    .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
-    .regex(/[0-9]/, { message: "Contain at least one number." })
-    .regex(/[^a-zA-Z0-9]/, {
-      message: "Contain at least one special character.",
-    })
-    .trim(),
-});
+"use client"
+import React from 'react'
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Tabs } from "@/components/ui/tabs"
 
 const LoginForm = () => {
   const [userType, setUserType] = useState<"paciente" | "administrativo">(
@@ -109,17 +89,11 @@ const LoginForm = () => {
                 Ingresar a paciente
               </Button>
 
-              <Button
-                className="w-full h-11"
-                onClick={() => {
-                  console.log("Nombre:", nombre);
-                  console.log("Email:", email);
-                  console.log("Password:", password);
-                  window.location.href = "../adminsitrador/dashboard";
-                }}
-              >
-                Ingresar como Administrativo
-              </Button>
+                                   <Button className="w-full h-11" onClick={() => (window.location.href = "../adminsitrador/dashboard")}>
+                                        Ingresar como Administrativo
+                                   </Button>
+
+                                   {/* FIN BP */}
 
               <div className="text-center">
                 <Button variant="link" className="text-sm">

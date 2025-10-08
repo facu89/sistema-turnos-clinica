@@ -7,7 +7,20 @@ import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ArrowLeft, Calendar, Clock, Save, Plus, Trash2 } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, Save, Trash2 } from "lucide-react"
+import  SideBar  from "./SideBar"
+
+
+interface agendaProps{
+     duracionTurno: number;
+     fechaVigencia: string;
+     horarios: {
+          dia: string;
+          activo: boolean; 
+          horaInicio: string; 
+          horaFin: string }[];
+
+}
 
 export default function MedicoAgenda() {
   const [agenda, setAgenda] = useState({
@@ -31,6 +44,7 @@ export default function MedicoAgenda() {
   }
 
   const diasSemana = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
+// fin de datos
 
   const handleHorarioChange = (dia: string, campo: string, valor: any) => {
     setAgenda((prev) => ({
@@ -41,6 +55,8 @@ export default function MedicoAgenda() {
 
   return (
     <div className="min-h-screen bg-background">
+
+
       {/* Header */}
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4">
@@ -58,13 +74,16 @@ export default function MedicoAgenda() {
           </div>
         </div>
       </header>
+{/* fin header  */}
 
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Content */}
+
+          {/* un componente */}
           <div className="lg:col-span-2 space-y-6">
             {/* Configuración General */}
             <Card>
+
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
@@ -72,6 +91,8 @@ export default function MedicoAgenda() {
                 </CardTitle>
                 <CardDescription>Configura los parámetros generales de la agenda</CardDescription>
               </CardHeader>
+
+
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -99,10 +120,12 @@ export default function MedicoAgenda() {
                   </div>
                 </div>
               </CardContent>
+
             </Card>
 
             {/* Horarios por Día */}
             <Card>
+
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Clock className="h-5 w-5" />
@@ -110,6 +133,8 @@ export default function MedicoAgenda() {
                 </CardTitle>
                 <CardDescription>Configura los días y horarios de atención</CardDescription>
               </CardHeader>
+
+
               <CardContent className="space-y-4">
                 {agenda.horarios.map((horario, index) => (
                   <div key={horario.dia} className="flex items-center gap-4 p-4 border rounded-lg">
@@ -161,67 +186,9 @@ export default function MedicoAgenda() {
                 ))}
               </CardContent>
             </Card>
+
           </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Actions */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Acciones</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button className="w-full">
-                  <Save className="h-4 w-4 mr-2" />
-                  Guardar Agenda
-                </Button>
-                {/* <Button variant="outline" className="w-full bg-transparent">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Agregar Excepción
-                </Button> */}
-                <Button variant="destructive" className="w-full">
-                  <Trash2 className="h-4 w-4 mr-2" />
-                  Eliminar Agenda
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Preview */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Resumen</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Días activos:</span>
-                    <span className="font-medium">{agenda.horarios.filter((h) => h.activo).length}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Duración turno:</span>
-                    <span className="font-medium">{agenda.duracionTurno} min</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Vigencia:</span>
-                    <span className="font-medium">{agenda.fechaVigencia}</span>
-                  </div>
-                </div>
-
-                <div className="pt-3 border-t">
-                  <p className="text-sm font-medium mb-2">Turnos por semana:</p>
-                  <p className="text-2xl font-bold text-primary">
-                    {agenda.horarios
-                      .filter((h) => h.activo)
-                      .reduce((total, h) => {
-                        const duracion =
-                          (new Date(`2000-01-01T${h.horaFin}`) - new Date(`2000-01-01T${h.horaInicio}`)) / (1000 * 60)
-                        return total + Math.floor(duracion / agenda.duracionTurno)
-                      }, 0)}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+<SideBar agenda={agenda} ></SideBar>
         </div>
       </div>
     </div>

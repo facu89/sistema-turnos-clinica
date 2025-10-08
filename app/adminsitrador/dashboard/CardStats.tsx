@@ -4,9 +4,6 @@ import {
   Users,
   Calendar,
   UserPlus,
-  FileText,
-  Heart,
-  Clock,
   AlertCircle,
 } from "lucide-react"
 
