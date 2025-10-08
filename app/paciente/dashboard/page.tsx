@@ -1,31 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Calendar,
-  User,
-  Clock,
-  Search,
-  Edit,
-  X,
-  CheckCircle,
-  AlertCircle,
-  Stethoscope,
-  LogOut,
-  Settings,
-} from "lucide-react";
 import { TurnosTabPac } from "./components/TurnosTabPac";
-import { TurnosDisponibles } from "./components/TurnosDisponibles";
 import { TurnosLibres } from "./components/TurnosLibresTab";
 import { PerfilTab } from "./components/PerfilTab";
 import HeaderPaciente from "./components/HeaderPaciente";

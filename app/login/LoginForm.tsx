@@ -76,7 +76,6 @@ const LoginForm = () => {
                     email: email,
                     password: password,
                   };
-
                   const result = SignupFormSchema.safeParse(formData);
                   if (!result.success) {
                     console.log(result.error.format()); // muestra los mensajes de error

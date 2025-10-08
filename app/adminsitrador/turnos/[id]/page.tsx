@@ -177,9 +177,7 @@ export default function TurnoDetalle( { medico }: MedicoProps) {
             </Card>
 
             {/* Medico Info */}
-            <InfoMedico
-            turno={ turno }
-            > </InfoMedico>
+            <InfoMedico turno={ turno }> </InfoMedico>
           </div>
 
           {/* Actions Sidebar */}

@@ -11,13 +11,13 @@ import { ArrowLeft, Calendar, Clock, Save, Trash2 } from "lucide-react"
 
 
 interface agendaProps{
-     duracionTurno: number;
-     fechaVigencia: string;
-     horarios: {
-          dia: string;
-          activo: boolean; 
-          horaInicio: string; 
-          horaFin: string }[];
+duracionTurno: number;
+fechaVigencia: string;
+horarios: {
+    dia: string;
+    activo: boolean; 
+    horaInicio: string; 
+    horaFin: string }[];
 
 }
 

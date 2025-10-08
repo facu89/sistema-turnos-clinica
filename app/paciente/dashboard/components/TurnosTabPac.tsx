@@ -10,13 +10,7 @@ import { Button } from "@/components/ui/button";
 
 export const TurnosTabPac = () => {
      const [activeTab, setActiveTab] = useState("mis-turnos");
-     // const [filtroMedico, setFiltroMedico] = useState("");
-     // const [filtroEspecialidad, setFiltroEspecialidad] = useState("");
-     // const [mostrarResultados, setMostrarResultados] = useState(false);
-     // const [turnos, setTurnosAgendados] = useState(turnosAgendados);
-     // const [disponibles, setTurnosDisponibles] = useState(turnosDisponibles);
-     // const [turnoAModificar, setTurnoAModificar] = useState<any>(null);
-     // const [turnoAConfirmar, setTurnoAConfirmar] = useState<any>(null);
+    
 
 
      return (
