@@ -1,35 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Calendar,
-  User,
-  Clock,
-  Search,
-  Edit,
-  X,
-  CheckCircle,
-  AlertCircle,
-  Stethoscope,
-  LogOut,
-  Settings,
-} from "lucide-react";
 import { TurnosTabPac } from "./components/TurnosTabPac";
-import { TurnosDisponibles } from "./components/TurnosDisponibles";
 import { TurnosLibres } from "./components/TurnosLibresTab";
 import { PerfilTab } from "./components/PerfilTab";
 import HeaderPaciente from "./components/HeaderPaciente";
 import { StatCards } from "./StatCards";
+import { medico } from "../../data/Info";
 declare global {
   interface Window {
     MercadoPago: any;
@@ -42,6 +21,8 @@ export default function PacienteDashboard() {
   const [filtroEspecialidad, setFiltroEspecialidad] = useState("");
   const [mostrarResultados, setMostrarResultados] = useState(false);
 
+
+  const medicos= medico;
   // Estado para los turnos agendados
   const [turnosAgendados, setTurnosAgendados] = useState([
     {
@@ -102,18 +83,7 @@ export default function PacienteDashboard() {
     },
   ]);
 
-  // Lista de médicos con especialidad
-  const medicos = [
-    { nombre: "Dr. Carlos López", especialidad: "Cardiología" },
-    { nombre: "Dr. Maria Ross ", especialidad: "Cardiología" },
-    { nombre: "Dr. Martin Guerrero", especialidad: "Cardiología" },
-    { nombre: "Dra. Ana Martínez", especialidad: "Pediatría" },
-    { nombre: "Dra. Perez Lopez", especialidad: "Pediatría" },
-    { nombre: "Dra. Jose Armando", especialidad: "Pediatría" },
-    { nombre: "Dr. Luis Rodríguez", especialidad: "Traumatología" },
-    { nombre: "Dr. Marcos Lucas", especialidad: "Traumatología" },
-    { nombre: "Dr. Rodrigo Alfonso", especialidad: "Traumatología" },
-  ];
+ 
 
   // Filtrar médicos según la especialidad seleccionada
   const medicosFiltrados = filtroEspecialidad

@@ -52,7 +52,7 @@ export const turnosDisponibles = [
   },
 ];
 
-export const medicos = [
+export const medico = [
   {
     nombre: "Dr. Carlos López",
     especialidad: "Cardiología",
@@ -71,3 +71,4 @@ export const medicos = [
   { nombre: "Dr. Marcos Lucas", especialidad: "Traumatología", obrasSociales: [] },
   { nombre: "Dr. Rodrigo Alfonso", especialidad: "Traumatología", obrasSociales: [] },
 ];
+
