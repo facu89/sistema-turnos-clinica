@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs"
+import { Tabs } from "@/components/ui/tabs"
 
 const LoginForm = () => {
      const [userType, setUserType] = useState<"paciente" | "administrativo">("paciente")
@@ -52,7 +52,7 @@ const LoginForm = () => {
                                         Ingresar a paciente
                                    </Button>
 
-                                   <Button className="w-full h-11" onClick={() => (window.location.href = "../admin/dashboard")}>
+                                   <Button className="w-full h-11" onClick={() => (window.location.href = "../adminsitrador/dashboard")}>
                                         Ingresar como Administrativo
                                    </Button>
 

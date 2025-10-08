@@ -5,10 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 //      especialidad: string;
 //      consultorio: string;
 // }
+
  interface Turno {
-  id: number;
-  fecha: string;
-  paciente: { 
+  icha: string;
+  pad: number;
+  feciente: { 
      // nombre: string;
      // dni: string;
      // email: string;
