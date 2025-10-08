@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,6 +24,12 @@ import {
   LogOut,
   Settings,
 } from "lucide-react";
+
+declare global {
+  interface Window {
+    MercadoPago: any;
+  }
+}
 
 export default function PacienteDashboard() {
   const [activeTab, setActiveTab] = useState("mis-turnos");
@@ -156,22 +162,82 @@ export default function PacienteDashboard() {
     setTurnoAConfirmar(turno);
   };
 
-  // Función para confirmar el pago y agendar el turno
-  const pagarYConfirmarTurno = () => {
+  const [mp, setMp] = useState<any>(null);
+
+  useEffect(() => {
+    // Cargar el SDK de MercadoPago
+    const script = document.createElement("script");
+    script.src = "https://sdk.mercadopago.com/js/v2";
+    script.onload = () => {
+      const mercadopago = new window.MercadoPago(
+        process.env.NEXT_PUBLIC_MP_PUBLIC_KEY || "TEST-your-public-key"
+      );
+      setMp(mercadopago);
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  // Función para crear la preferencia de pago
+  const crearPreferenciaPago = async (turno: any) => {
+    try {
+      const response = await fetch("/api/create-preference", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: `Turno médico - ${turno.medico}`,
+          quantity: 1,
+          unit_price: 1000,
+          description: `Turno de la clínica XXX - ${turno.especialidad}`,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      // Redirigir a MercadoPago
+      if (result.sandbox_init_point) {
+        window.open(result.sandbox_init_point, "_blank");
+      } else if (result.init_point) {
+        window.open(result.init_point, "_blank");
+      }
+    } catch (error) {
+      console.error("Error al crear la preferencia:", error);
+      // alert("Error al procesar el pago: " + error.message);
+    }
+  };
+
+  // Función modificada para pagar y confirmar turno
+  const pagarYConfirmarTurno = async () => {
     if (!turnoAConfirmar) return;
-    setTurnosAgendados((prev) => [
-      ...prev,
-      {
-        ...turnoAConfirmar,
-        direccion: "A confirmar",
-      },
-    ]);
-    setTurnosDisponibles((prev) =>
-      prev.map((t) =>
-        t.id === turnoAConfirmar.id ? { ...t, estado: "ocupado" } : t
-      )
-    );
-    setTurnoAConfirmar(null);
+
+    await crearPreferenciaPago(turnoAConfirmar);
+
+    // Por ahora, simulamos que el pago fue exitoso
+    // En una implementación real, esto se haría en el webhook de MercadoPago
+    setTimeout(() => {
+      setTurnosAgendados((prev) => [
+        ...prev,
+        {
+          ...turnoAConfirmar,
+          direccion: "A confirmar",
+        },
+      ]);
+      setTurnosDisponibles((prev) =>
+        prev.map((t) =>
+          t.id === turnoAConfirmar.id ? { ...t, estado: "ocupado" } : t
+        )
+      );
+      setTurnoAConfirmar(null);
+    }, 3000);
   };
 
   // Estado para los datos de contacto
