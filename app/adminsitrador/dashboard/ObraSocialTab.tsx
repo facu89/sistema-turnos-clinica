@@ -38,6 +38,9 @@ export const ObraSocialTab = () => {
                         <Badge variant={obra.activa ? "default" : "secondary"}>
                           {obra.activa ? "Activa" : "Inactiva"}
                         </Badge>
+                        <Button variant={obra.activa ? "destructive" : "secondary"}>
+                          {obra.activa ? "Desactivar" : "Activar"}
+                        </Button>
                         <Button variant="destructive" size="sm">
                           Eliminar
                         </Button>

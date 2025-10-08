@@ -15,14 +15,11 @@ export const TurnosAcciones = () => {
                   <Edit className="h-4 w-4 mr-2" />
                   Reasignar Turno
                 </Button>
-                <Button className="w-full" variant="destructive">
+                <Button className="w-full green" >
                   <UserX className="h-4 w-4 mr-2" />
                   Marcar Presencia
                 </Button>
-                <Button className="w-full bg-transparent" variant="outline">
-                  <RotateCcw className="h-4 w-4 mr-2" />
-                  Reprogramar
-                </Button>
+                
               </CardContent>
             </Card>
   )

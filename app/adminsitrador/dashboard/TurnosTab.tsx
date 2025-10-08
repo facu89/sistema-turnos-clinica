@@ -37,17 +37,7 @@ export const TurnosTab = () => {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Badge
-                          variant={
-                            turno.estado === "confirmado"
-                              ? "default"
-                              : turno.estado === "pendiente"
-                                ? "secondary"
-                                : "destructive"
-                          }
-                        >
-                          {turno.estado}
-                        </Badge>
+                        
                         <Button
                           variant="outline"
                           size="sm"
