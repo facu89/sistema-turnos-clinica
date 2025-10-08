@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -25,18 +24,12 @@ import {
   LogOut,
   Settings,
 } from "lucide-react";
-=======
-import { useState } from "react";
-import { Tabs ,TabsList, TabsTrigger } from "@/components/ui/tabs";
-import HeaderPaciente from "./components/HeaderPaciente";
-import { turnosAgendados, turnosDisponibles, medicos } from "../../data/Info";
-import {StatCards} from './StatCards';
 import { TurnosTabPac } from "./components/TurnosTabPac";
-import PerfilTab from "./components/PerfilTab";
-import TurnosLibresTab from "./components/TurnosLibresTab";
-
->>>>>>> e3683f1ea9dac1d226c1f883c1f3740001edbaf2
-
+import { TurnosDisponibles } from "./components/TurnosDisponibles";
+import { TurnosLibres } from "./components/TurnosLibresTab";
+import { PerfilTab } from "./components/PerfilTab";
+import HeaderPaciente from "./components/HeaderPaciente";
+import { StatCards } from "./StatCards";
 declare global {
   interface Window {
     MercadoPago: any;
@@ -45,7 +38,6 @@ declare global {
 
 export default function PacienteDashboard() {
   const [activeTab, setActiveTab] = useState("mis-turnos");
-<<<<<<< HEAD
   const [filtroMedico, setFiltroMedico] = useState("");
   const [filtroEspecialidad, setFiltroEspecialidad] = useState("");
   const [mostrarResultados, setMostrarResultados] = useState(false);
@@ -82,7 +74,7 @@ export default function PacienteDashboard() {
   const [turnoAModificar, setTurnoAModificar] = useState<any>(null);
   const [turnoAConfirmar, setTurnoAConfirmar] = useState<any>(null);
 
-  // Estado para los turnos disponibles, ahora con estado
+  // Estado para los turnos disponibles
   const [turnosDisponibles, setTurnosDisponibles] = useState([
     {
       id: 1,
@@ -143,13 +135,13 @@ export default function PacienteDashboard() {
     );
   });
 
-  // Turnos disponibles para modificar (solo los que coinciden con el médico y especialidad del turno a modificar,
-  // y que también aparecen en la lista filtrada de turnos disponibles)
+  // Turnos disponibles para modificar
   const turnosParaModificar = turnoAModificar
-    ? turnosFiltrados.filter(
+    ? turnosDisponibles.filter(
         (t) =>
           t.medico === turnoAModificar.medico &&
-          t.especialidad === turnoAModificar.especialidad
+          t.especialidad === turnoAModificar.especialidad &&
+          t.estado === "disponible"
       )
     : [];
 
@@ -170,87 +162,9 @@ export default function PacienteDashboard() {
     setTurnoAModificar(null);
   };
 
-  // Función para agendar un turno (ahora solo abre el modal de pago)
+  // Función para agendar un turno
   const agendarTurno = (turno: any) => {
     setTurnoAConfirmar(turno);
-  };
-
-  const [mp, setMp] = useState<any>(null);
-
-  useEffect(() => {
-    // Cargar el SDK de MercadoPago
-    const script = document.createElement("script");
-    script.src = "https://sdk.mercadopago.com/js/v2";
-    script.onload = () => {
-      const mercadopago = new window.MercadoPago(
-        process.env.NEXT_PUBLIC_MP_PUBLIC_KEY || "TEST-your-public-key"
-      );
-      setMp(mercadopago);
-    };
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
-  // Función para crear la preferencia de pago
-  const crearPreferenciaPago = async (turno: any) => {
-    try {
-      const response = await fetch("/api/create-preference", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: `Turno médico - ${turno.medico}`,
-          quantity: 1,
-          unit_price: 1000,
-          description: `Turno de la clínica XXX - ${turno.especialidad}`,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-
-      // Redirigir a MercadoPago
-      if (result.sandbox_init_point) {
-        window.open(result.sandbox_init_point, "_blank");
-      } else if (result.init_point) {
-        window.open(result.init_point, "_blank");
-      }
-    } catch (error) {
-      console.error("Error al crear la preferencia:", error);
-      // alert("Error al procesar el pago: " + error.message);
-    }
-  };
-
-  // Función modificada para pagar y confirmar turno
-  const pagarYConfirmarTurno = async () => {
-    if (!turnoAConfirmar) return;
-
-    await crearPreferenciaPago(turnoAConfirmar);
-
-    // Por ahora, simulamos que el pago fue exitoso
-    // En una implementación real, esto se haría en el webhook de MercadoPago
-    setTimeout(() => {
-      setTurnosAgendados((prev) => [
-        ...prev,
-        {
-          ...turnoAConfirmar,
-          direccion: "A confirmar",
-        },
-      ]);
-      setTurnosDisponibles((prev) =>
-        prev.map((t) =>
-          t.id === turnoAConfirmar.id ? { ...t, estado: "ocupado" } : t
-        )
-      );
-      setTurnoAConfirmar(null);
-    }, 3000);
   };
 
   // Estado para los datos de contacto
@@ -261,8 +175,26 @@ export default function PacienteDashboard() {
   });
   const [editandoContacto, setEditandoContacto] = useState(false);
   const [contactoTemp, setContactoTemp] = useState(contacto);
-=======
->>>>>>> e3683f1ea9dac1d226c1f883c1f3740001edbaf2
+
+  // Función modificada para pagar y confirmar turno
+  const pagarYConfirmarTurno = async () => {
+    if (!turnoAConfirmar) return;
+
+    // Simular pago exitoso
+    setTurnosAgendados((prev) => [
+      ...prev,
+      {
+        ...turnoAConfirmar,
+        direccion: "A confirmar",
+      },
+    ]);
+    setTurnosDisponibles((prev) =>
+      prev.map((t) =>
+        t.id === turnoAConfirmar.id ? { ...t, estado: "ocupado" } : t
+      )
+    );
+    setTurnoAConfirmar(null);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -284,7 +216,7 @@ export default function PacienteDashboard() {
           </TabsList>
 
           <TurnosTabPac></TurnosTabPac>
-          <TurnosLibresTab></TurnosLibresTab>
+          <TurnosLibres></TurnosLibres>
           <PerfilTab></PerfilTab>
         </Tabs>
       </div>
