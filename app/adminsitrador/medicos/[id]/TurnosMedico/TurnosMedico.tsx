@@ -4,32 +4,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Clock } from "lucide-react"
-
+import { turnoPaciente } from '@/app/data/Info'
 export const TurnosMedico = () => {
-  const turnos = [
-    {
-      id: 1,
-      paciente: {
-        nombre: "María García",
-        dni: "12.345.678",
-        email: "maria.garcia@email.com",
-        telefono: "+54 11 1234-5678",
-        direccion: "Av. Corrientes 1234, CABA",
-        obraSocial: "OSDE",
-      },
-      medico: {
-        nombre: "Dr. Carlos López",
-        especialidad: "Cardiología",
-        consultorio: "201",
-      },
-      fecha: "2024-01-15",
-      hora: "10:30",
-      duracion: "30 min",
-      estado: "confirmado",
-      motivo: "Control cardiológico de rutina",
-      observaciones: "Paciente con antecedentes de hipertensión",
-    },
-  ];
+  const turnos = turnoPaciente ? [turnoPaciente] : [];
 
   // si más adelante querés filtrar por médico, pasalo como prop
   const turnosFiltrados = turnos; 

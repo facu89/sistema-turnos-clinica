@@ -11,17 +11,20 @@ import { ArrowLeft, Calendar, Clock, Save, Trash2 } from "lucide-react"
 
 
 interface agendaProps{
-duracionTurno: number;
-fechaVigencia: string;
-horarios: {
-    dia: string;
-    activo: boolean; 
-    horaInicio: string; 
-    horaFin: string }[];
+  agenda:{
+
+    duracionTurno: number;
+    fechaVigencia: string;
+    horarios: {
+        dia: string;
+        activo: boolean; 
+        horaInicio: string; 
+        horaFin: string }[];
+  }
 
 }
 
-const SideBar = (agenda : any) => {
+const SideBar = ({agenda }: agendaProps) => {
   return (
           <div className="space-y-6">
             {/* Actions */}
@@ -54,6 +57,7 @@ const SideBar = (agenda : any) => {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Días activos:</span>
+                        {/* blabla */}
                     <span className="font-medium">{agenda.horarios.filter((h) => h.activo).length}</span>
                   </div>
                   <div className="flex justify-between text-sm">

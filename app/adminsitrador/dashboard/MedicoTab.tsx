@@ -52,11 +52,11 @@ export const MedicoTab = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => (window.location.href = `/admin/medicos/${medico.id}/agenda`)}
+                          onClick={() => (window.location.href = `/adminsitrador/medicos/${medico.id}/agenda`)}
                         >
                           {medico.agenda ? "Modificar Agenda" : "Crear Agenda"}
                         </Button>
-                        <Button onClick={() => (window.location.href = `/admin/medicos/${medico.id}/TurnosMedico`)} variant="outline" size="sm">
+                        <Button onClick={() => (window.location.href = `/adminsitrador/medicos/${medico.id}/TurnosMedico`)} variant="outline" size="sm">
                           Ver Turnos Medico
                         </Button>
                         <Button variant={medico.estado === "activo" ? "destructive" : "default"} size="sm">
