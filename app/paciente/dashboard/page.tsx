@@ -152,7 +152,7 @@ export default function PacienteDashboard() {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="mis-turnos">Mis Turnos</TabsTrigger>
             <TabsTrigger value="buscar-turnos">Turnos disponibles</TabsTrigger>
             <TabsTrigger value="perfil">Mi Perfil</TabsTrigger>
