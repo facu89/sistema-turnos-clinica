@@ -3,53 +3,27 @@
 import { useState, useEffect } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TurnosTabPac } from "./components/TurnosTabPac";
-import { TurnosLibres } from "./components/TurnosLibresTab";
-import { PerfilTab } from "./components/PerfilTab";
-import HeaderPaciente from "./components/HeaderPaciente";
+import { TurnosTabPac } from "./TurnosTabPac";
+import { TurnosLibres } from "./TurnosLibresTab";
+import { PerfilTab } from "./PerfilTab";
+import HeaderPaciente from "../components/HeaderPaciente";
 import { StatCards } from "./StatCards";
-import { medico } from "../../data/Info";
+import { medico, turnosAgendados } from "../../data/Info";
 declare global {
   interface Window {
     MercadoPago: any;
   }
 }
 
-export default function PacienteDashboard() {
+export default function PacienteDashboard({ paciente }: any) {
   const [activeTab, setActiveTab] = useState("mis-turnos");
   const [filtroMedico, setFiltroMedico] = useState("");
   const [filtroEspecialidad, setFiltroEspecialidad] = useState("");
   const [mostrarResultados, setMostrarResultados] = useState(false);
 
-
   const medicos= medico;
   // Estado para los turnos agendados
-  const [turnosAgendados, setTurnosAgendados] = useState([
-    {
-      id: 1,
-      medico: "Dr. Carlos López",
-      especialidad: "Cardiología",
-      fecha: "2024-01-15",
-      hora: "10:30",
-      direccion: "Consultorio 201",
-    },
-    {
-      id: 2,
-      medico: "Dra. Ana Martínez",
-      especialidad: "Pediatría",
-      fecha: "2024-01-22",
-      hora: "14:00",
-      direccion: "Consultorio 105",
-    },
-    {
-      id: 3,
-      medico: "Dr. Luis Rodríguez",
-      especialidad: "Traumatología",
-      fecha: "2024-01-28",
-      hora: "09:15",
-      direccion: "Consultorio 302",
-    },
-  ]);
+  const [turnos, setTurnos] = useState(turnosAgendados);//mock data
 
   // Estado para modificar turno
   const [turnoAModificar, setTurnoAModificar] = useState<any>(null);
@@ -117,12 +91,12 @@ export default function PacienteDashboard() {
 
   // Función para cancelar turno
   const cancelarTurno = (id: number) => {
-    setTurnosAgendados((prev) => prev.filter((turno) => turno.id !== id));
+    setTurnos((prev) => prev.filter((turno) => turno.id !== id));
   };
 
   // Función para seleccionar un turno disponible y modificar el turno agendado
   const seleccionarNuevoTurno = (nuevoTurno: any) => {
-    setTurnosAgendados((prev) =>
+    setTurnos((prev) =>
       prev.map((t) =>
         t.id === turnoAModificar.id
           ? { ...t, fecha: nuevoTurno.fecha, hora: nuevoTurno.hora }
@@ -151,7 +125,7 @@ export default function PacienteDashboard() {
     if (!turnoAConfirmar) return;
 
     // Simular pago exitoso
-    setTurnosAgendados((prev) => [
+    setTurnos((prev) => [
       ...prev,
       {
         ...turnoAConfirmar,
@@ -171,14 +145,14 @@ export default function PacienteDashboard() {
       {/* Header */}
       <HeaderPaciente></HeaderPaciente>
       <div className="container mx-auto px-4 py-6">
-        <StatCards></StatCards>
+        <StatCards turnos={turnosAgendados} paciente={ paciente }></StatCards>
         {/* Main Content */}
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="mis-turnos">Mis Turnos</TabsTrigger>
             <TabsTrigger value="buscar-turnos">Turnos disponibles</TabsTrigger>
             <TabsTrigger value="perfil">Mi Perfil</TabsTrigger>
@@ -187,7 +161,7 @@ export default function PacienteDashboard() {
 
           <TurnosTabPac></TurnosTabPac>
           <TurnosLibres></TurnosLibres>
-          <PerfilTab></PerfilTab>
+          <PerfilTab contactoPaciente= { paciente }></PerfilTab>
         </Tabs>
       </div>
     </div>

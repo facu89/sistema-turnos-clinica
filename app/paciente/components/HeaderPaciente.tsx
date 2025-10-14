@@ -6,7 +6,7 @@ import {
   turnosAgendados,
   turnosDisponibles,
   medicos,
-} from "../../../data/Info";
+} from "../../data/Info";
 
 const HeaderPaciente = () => {
   const [turnos, setTurnos] = useState(turnosAgendados);

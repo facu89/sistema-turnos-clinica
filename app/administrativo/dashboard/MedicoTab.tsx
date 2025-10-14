@@ -4,12 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TabsContent } from "@/components/ui/tabs";
 import {
-  Users,
-  Calendar,
   UserPlus,
-  FileText,
   Heart,
-  Clock,
 } from "lucide-react";
 
 export const MedicoTab = () => {

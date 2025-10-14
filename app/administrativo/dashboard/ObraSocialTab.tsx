@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { TabsContent } from "@/components/ui/tabs"
 import {FileText} from "lucide-react"
+import { obrasSociales } from '@/app/data/Info'
+
 
 export const ObraSocialTab = () => {
+  // const obras=ObrasSociales;
   return (
     <TabsContent value="obras-sociales" className="space-y-6">
             <div className="flex justify-between items-center">
@@ -17,11 +20,7 @@ export const ObraSocialTab = () => {
             </div>
 
             <div className="grid gap-4">
-              {[
-                { id: 1, nombre: "OSDE", codigo: "OSDE001", activa: true },
-                { id: 2, nombre: "Swiss Medical", codigo: "SWISS001", activa: true },
-                { id: 3, nombre: "Galeno", codigo: "GAL001", activa: false },
-              ].map((obra) => (
+              {obrasSociales.map((obra) => (
                 <Card key={obra.id}>
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">

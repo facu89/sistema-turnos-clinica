@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { TabsContent } from "@/components/ui/tabs";
 import { FileText } from "lucide-react";
+import { medico } from "@/app/data/Info";//simula bd
 
 export const ReportesTab = () => {
   return (
@@ -44,8 +45,14 @@ export const ReportesTab = () => {
               <label className="text-sm font-medium">Médico</label>
               <select className="w-full mt-1 p-2 border rounded-lg">
                 <option>Todos los médicos</option>
-                <option>Dr. Carlos López</option>
-                <option>Dra. Ana Martínez</option>
+                {medico
+                  .filter((m) => m.activo)//solo muestra los activos
+                  .map((m) => (
+                    <option key={m.nombre} value={m.nombre}>
+                      {/* deberia ir el legajo pero no esta en la mock data */}
+                      {m.nombre} - {m.especialidad}
+                    </option>
+                  ))}
               </select>
             </div>
           </div>
