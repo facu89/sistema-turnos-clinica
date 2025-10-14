@@ -15,7 +15,7 @@ declare global {
   }
 }
 
-export default function PacienteDashboard() {
+export default function PacienteDashboard({ paciente }: any) {
   const [activeTab, setActiveTab] = useState("mis-turnos");
   const [filtroMedico, setFiltroMedico] = useState("");
   const [filtroEspecialidad, setFiltroEspecialidad] = useState("");
@@ -145,7 +145,7 @@ export default function PacienteDashboard() {
       {/* Header */}
       <HeaderPaciente></HeaderPaciente>
       <div className="container mx-auto px-4 py-6">
-        <StatCards></StatCards>
+        <StatCards turnos={turnosAgendados} paciente={ paciente }></StatCards>
         {/* Main Content */}
         <Tabs
           value={activeTab}
@@ -161,7 +161,7 @@ export default function PacienteDashboard() {
 
           <TurnosTabPac></TurnosTabPac>
           <TurnosLibres></TurnosLibres>
-          <PerfilTab></PerfilTab>
+          <PerfilTab contactoPaciente= { paciente }></PerfilTab>
         </Tabs>
       </div>
     </div>

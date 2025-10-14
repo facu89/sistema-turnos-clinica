@@ -107,7 +107,7 @@ export const obrasSociales = [
 
 
               export const pacientes= [
-                { id: 1, nombre: "María García", email: "maria@email.com", telefono: "+54 11 1234-5678", ausencias: 0 },
+                { id: 1, nombre: "María García", email: "maria@email.com", telefono: "+54 11 1234-5678", ausencias: 0 ,fecha_nac: "1990-05-15", dni: "12.345.678"},
                 { id: 2, nombre: "Juan Pérez", email: "juan@email.com", telefono: "+54 11 8765-4321", ausencias: 2 },
                 { id: 3, nombre: "Ana Silva", email: "ana@email.com", telefono: "+54 11 5555-5555", ausencias: 1 },
               ]

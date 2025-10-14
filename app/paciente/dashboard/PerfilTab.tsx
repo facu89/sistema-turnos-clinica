@@ -8,15 +8,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
+import { pacientes } from "@/app/data/Info";
 
 
-export const PerfilTab = () => {
+export const PerfilTab = ({ contactoPaciente }: any ) => { 
+  //aca paciente esta para representar llo que traeria la bd, que seria datos de contacto del paciente como parametro .
+  
   // Estado para los datos de contacto
-  const [contacto, setContacto] = useState({ //mock data
-    email: "maria.garcia@email.com",
-    telefono: "+54 11 1234-5678",
-    direccion: "Av. Corrientes 1234, CABA",
-  });
+  const [contacto, setContacto] = useState( //mock data
+    pacientes[0]);
  
 
   return (
@@ -35,19 +35,19 @@ export const PerfilTab = () => {
               <label className="text-sm font-medium text-muted-foreground">
                 Nombre Completo
               </label>
-              <p className="text-lg">María García</p>
+              <p className="text-lg">{contacto.nombre}</p>
             </div>
             <div>
               <label className="text-sm font-medium text-muted-foreground">
                 DNI
               </label>
-              <p className="text-lg">12.345.678</p>
+              <p className="text-lg">{contacto.dni}</p>
             </div>
             <div>
               <label className="text-sm font-medium text-muted-foreground">
                 Fecha de Nacimiento
               </label>
-              <p className="text-lg">15/03/1985</p>
+              <p className="text-lg">{contacto.fecha_nac}</p>
             </div>
           </CardContent>
         </Card>
