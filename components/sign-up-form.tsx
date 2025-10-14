@@ -70,8 +70,8 @@ export function SignUpForm({
       // 2. Verificar si el DNI ya existe
       const { data: existingProfile, error: dniCheckError } = await supabase
         .from("profiles")
-        .select("dni")
-        .eq("dni", dni)
+        .select("dni_paciente")
+        .eq("dni_paciente", dni)
         .maybeSingle();
 
       // Solo es error si hay un problema real con la consulta, no si no encuentra nada
@@ -115,12 +115,12 @@ export function SignUpForm({
       console.log("Insertando perfil con datos:", {
         id: authData.user.id,
         email: email.trim().toLowerCase(),
-        first_name: name,
-        last_name: apellido,
-        dni: dni,
-        phone: telefono,
-        birth_date: fechaNacimiento,
-        user_type: "Paciente",
+        nombre: name,
+        apellido: apellido,
+        dni_paciente: dni,
+        telefono: telefono,
+        fecha_nacimiento: fechaNacimiento,
+        tipo_usuario: "Paciente",
       });
 
       // 5. Crear el perfil
@@ -129,12 +129,12 @@ export function SignUpForm({
         .insert({
           id: authData.user.id,
           email: email.trim().toLowerCase(),
-          first_name: name,
-          last_name: apellido,
-          dni: dni,
-          phone: telefono,
-          birth_date: fechaNacimiento,
-          user_type: "Paciente",
+          nombre: name,
+          apellido: apellido,
+          dni_paciente: dni,
+          telefono: telefono,
+          fecha_nacimiento: fechaNacimiento,
+          tipo_usuario: "Paciente",
         });
 
       console.log("Resultado insert perfil:", { profileData, profileError });
@@ -154,7 +154,7 @@ export function SignUpForm({
       }
 
       console.log("Registro exitoso!"); // Para debug
-      router.push("../paciente");
+      router.push("../paciente/dashboard");
     } catch (error: unknown) {
       console.error("Error en catch:", error); // Para debug
       setError(

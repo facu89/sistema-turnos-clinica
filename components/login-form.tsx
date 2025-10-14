@@ -89,11 +89,11 @@ export function LoginForm({
 
       // Si lo encuentra en profiles
       if (profileData && !profileError) {
-        const userType = profileData.user_type;
+        const userType = profileData.tipo_usuario;
         console.log("✅ Usuario encontrado en profiles, tipo:", userType);
 
         if (userType === "Administrador") {
-          router.push("./adminsitrador");
+          router.push("../adminsitrador");
           return;
         } else {
           router.push("../paciente/dashboard");
