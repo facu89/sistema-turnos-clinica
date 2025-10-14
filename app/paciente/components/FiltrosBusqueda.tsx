@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { turnosAgendados, turnosDisponibles, medico } from "../../../data/Info";
+import { turnosAgendados, turnosDisponibles, medico } from "../../data/Info";
 import { Search } from "lucide-react";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle, } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";

@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TurnosTabPac } from "./TurnosTabPac";
 import { TurnosLibres } from "./TurnosLibresTab";
 import { PerfilTab } from "./PerfilTab";
-import HeaderPaciente from "./components/HeaderPaciente";
+import HeaderPaciente from "../components/HeaderPaciente";
 import { StatCards } from "./StatCards";
 import { medico, turnosAgendados } from "../../data/Info";
 declare global {

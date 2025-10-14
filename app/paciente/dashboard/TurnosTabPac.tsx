@@ -4,8 +4,6 @@ import { TabsContent } from "@/components/ui/tabs";
 
 
 export const TurnosTabPac = () => {
-    
-
 
      return (
           <div>

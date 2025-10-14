@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from "react";
-import {turnosDisponibles,medico} from "../../../data/Info";
+import {turnosDisponibles,medico} from "../../data/Info";
 import {  Clock, CheckCircle } from "lucide-react";
 import {Card,CardContent} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";

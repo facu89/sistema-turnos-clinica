@@ -6,7 +6,7 @@ import {
   medico,
 } from "../../data/Info";
 import {  TabsContent } from "@/components/ui/tabs";
-import FiltrosBusqueda from "./components/FiltrosBusqueda";
+import FiltrosBusqueda from "../components/FiltrosBusqueda";
 
 export const TurnosLibres = () => {
   const [activeTab, setActiveTab] = useState("mis-turnos");

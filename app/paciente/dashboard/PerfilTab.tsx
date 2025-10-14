@@ -1,5 +1,5 @@
 import React from "react";
-import InfoPaciente from './components/InfoPaciente';
+import InfoPaciente from '../components/InfoPaciente';
 import { useState } from "react";
 import {
   Card,
