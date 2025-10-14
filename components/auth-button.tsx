@@ -15,13 +15,13 @@ export async function AuthButton() {
     // Buscar en profiles (pacientes)
     const { data: profileData } = await supabase
       .from("profiles")
-      .select("user_type")
+      .select("tipo_usuario")
       .eq("email", email)
       .single();
 
     if (profileData) {
-      return profileData.user_type === "Administrador"
-        ? "/adminsitrador/dashboard"
+      return profileData.tipo_usuario === "Administrador"
+        ? "/administrador"
         : "/paciente/dashboard";
     }
 
@@ -33,7 +33,7 @@ export async function AuthButton() {
       .single();
 
     if (adminData) {
-      return "/adminsitrador/dashboard";
+      return "/administrativo/dashboard";
     }
 
     return "/paciente/dashboard";
