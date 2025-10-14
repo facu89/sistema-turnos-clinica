@@ -4,13 +4,9 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { TabsContent } from "@/components/ui/tabs"
 import {
-  Users,
-  Calendar,
-  UserPlus,
-  FileText,
-  Heart,
-  Clock,
+  Users
 } from "lucide-react"
+import { pacientes } from '@/app/data/Info'//simula bd
 
 const PacienteTab = () => {
   return (
@@ -25,11 +21,7 @@ const PacienteTab = () => {
             </div>
 
             <div className="grid gap-4">
-              {[
-                { id: 1, nombre: "María García", email: "maria@email.com", telefono: "+54 11 1234-5678", ausencias: 0 },
-                { id: 2, nombre: "Juan Pérez", email: "juan@email.com", telefono: "+54 11 8765-4321", ausencias: 2 },
-                { id: 3, nombre: "Ana Silva", email: "ana@email.com", telefono: "+54 11 5555-5555", ausencias: 1 },
-              ].map((paciente) => (
+              {pacientes.map((paciente) => (
                 <Card key={paciente.id}>
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">

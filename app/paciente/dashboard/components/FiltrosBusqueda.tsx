@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { turnosAgendados, turnosDisponibles, medicos } from "../../../data/Info";
+import { turnosAgendados, turnosDisponibles, medico } from "../../../data/Info";
 import { Search } from "lucide-react";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle, } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ const FiltrosBusqueda = () => {
      const [turnoAConfirmar, setTurnoAConfirmar] = useState<any>(null);
 
      const medicosFiltrados = filtroEspecialidad
-          ? medicos.filter((m) => m.especialidad === filtroEspecialidad)
+          ? medico.filter((m) => m.especialidad === filtroEspecialidad)
           : [];
 
      const turnosFiltrados = turnosDisponibles.filter((turno) => {

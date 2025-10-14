@@ -1,12 +1,11 @@
 import React from 'react'
 import { useState } from "react";
-import {turnosAgendados,turnosDisponibles,medicos} from "../../../data/Info";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Clock, Search, Edit, X, CheckCircle } from "lucide-react";
-import {Card,CardContent,CardHeader,CardDescription,CardTitle,} from "@/components/ui/card";
+import {turnosDisponibles,medico} from "../../../data/Info";
+import {  Clock, CheckCircle } from "lucide-react";
+import {Card,CardContent} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Agendar from "./Agendar";
-
+import NoMatches from "./NoMatches";
 
 interface TurnosDisponiblesProps {
   filtroEspecialidad: string;
@@ -43,7 +42,7 @@ export const TurnosDisponibles = ({ filtroEspecialidad, filtroMedico,setTurnosAg
           
 
           const medicosFiltrados = filtroEspecialidad
-                    ? medicos.filter((m) => m.especialidad === filtroEspecialidad)
+                    ? medico.filter((m) => m.especialidad === filtroEspecialidad)
                     : [];
           
                const turnosFiltrados = turnosDisponibles.filter((turno) => {
@@ -68,25 +67,8 @@ return (
                     <h3 className="text-lg font-semibold">Turnos Disponibles</h3>
                     
                     {turnosFiltrados.length === 0  && (
-                         <>
-                              <p className="text-muted-foreground">
-                                   No hay turnos disponibles con esos filtros.
-                              </p>
-                              {filtroEspecialidad && filtroEspecialidad !== "" && (
-                                   <div className="flex justify-center">
-                                        <Button
-                                             variant="outline"
-                                             className="mt-2"
-                                             onClick={() =>
-                                                  alert("Solicitud de ingreso a lista de espera enviada.")
-                                             }
-                                        >
-                                             Solicitar ingreso a lista de espera
-                                        </Button>
-                                   </div>
-                              )}
-                         </>
-                    )}
+      <NoMatches filtroEspecialidad={filtroEspecialidad} />
+    )}
                     {
                          turnosFiltrados.map((turno) => (
                               <Card key={turno.id}>

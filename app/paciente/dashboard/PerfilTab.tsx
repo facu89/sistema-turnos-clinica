@@ -1,5 +1,5 @@
 import React from "react";
-import InfoPaciente from './InfoPaciente';
+import InfoPaciente from './components/InfoPaciente';
 import { useState } from "react";
 import {
   Card,
@@ -8,12 +8,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
-import { Edit } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
 
 export const PerfilTab = () => {
   // Estado para los datos de contacto
-  const [contacto, setContacto] = useState({
+  const [contacto, setContacto] = useState({ //mock data
     email: "maria.garcia@email.com",
     telefono: "+54 11 1234-5678",
     direccion: "Av. Corrientes 1234, CABA",

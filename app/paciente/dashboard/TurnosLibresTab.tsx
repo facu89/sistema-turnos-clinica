@@ -3,20 +3,10 @@ import { useState } from "react";
 import {
   turnosAgendados,
   turnosDisponibles,
-  medicos,
-} from "../../../data/Info";
-import ObrasSocialesMedico from "./ObrasSocialesMedico";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Clock, Search, Edit, X, CheckCircle } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardDescription,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import FiltrosBusqueda from "./FiltrosBusqueda";
+  medico,
+} from "../../data/Info";
+import {  TabsContent } from "@/components/ui/tabs";
+import FiltrosBusqueda from "./components/FiltrosBusqueda";
 
 export const TurnosLibres = () => {
   const [activeTab, setActiveTab] = useState("mis-turnos");
@@ -29,7 +19,7 @@ export const TurnosLibres = () => {
   const [turnoAConfirmar, setTurnoAConfirmar] = useState<any>(null);
 
   const medicosFiltrados = filtroEspecialidad
-    ? medicos.filter((m) => m.especialidad === filtroEspecialidad)
+    ? medico.filter((m) => m.especialidad === filtroEspecialidad)
     : [];
 
   const turnosFiltrados = turnosDisponibles.filter((turno) => {

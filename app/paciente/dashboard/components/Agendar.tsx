@@ -1,6 +1,4 @@
 import React from 'react'
-import { useState } from "react";
-import { turnosAgendados, turnosDisponibles, medicos } from "../../../data/Info";
 import { Button } from "@/components/ui/button";
 import ObrasSocialesMedico from './ObrasSocialesMedico';
 
