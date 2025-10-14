@@ -93,7 +93,7 @@ export function LoginForm({
         console.log("✅ Usuario encontrado en profiles, tipo:", userType);
 
         if (userType === "Administrador") {
-          router.push("../adminsitrador");
+          router.push("../administrador");
           return;
         } else {
           router.push("../paciente/dashboard");
@@ -110,23 +110,23 @@ export function LoginForm({
         .eq("email", email)
         .single();
 
-      console.log("🏥 Resultado profiles_administrativos:", {
+      console.log(" Resultado profiles_administrativos:", {
         adminData,
         adminError,
       });
 
       // Si lo encuentra en profiles_administrativos
       if (adminData && !adminError) {
-        console.log("✅ Usuario admin encontrado");
-        router.push("../adminsitrador/dashboard");
+        console.log(" Usuario admin encontrado");
+        router.push("../administrativo/dashboard");
         return;
       }
 
-      console.log("❌ No encontrado en ninguna tabla");
+      console.log(" No encontrado en ninguna tabla");
       // Si no lo encuentra en ninguna tabla
       setError("Usuario no encontrado en el sistema");
     } catch (error: unknown) {
-      console.error("💥 Error en handleLogin:", error);
+      console.error(" Error en handleLogin:", error);
       setError(
         error instanceof Error ? error.message : "Ocurrió un error inesperado"
       );
