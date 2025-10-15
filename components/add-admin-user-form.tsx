@@ -107,6 +107,7 @@ export function AddAdminUserForm({ onUserAdded }: AddAdminUserFormProps) {
         .from("profiles_administrativos")
         .insert({
           id: authData.user.id, // Referencia al user de auth
+          email: email,
           legajo_administrativo: "00" + dni, // Usar el ID del usuario como legajo
           nombre: firstName,
           apellido: lastName,
