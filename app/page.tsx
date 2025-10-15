@@ -2,6 +2,7 @@ import { DeployButton } from "@/components/deploy-button";
 import { EnvVarWarning } from "@/components/env-var-warning";
 import { AuthButton } from "@/components/auth-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { HeroSection } from "@/components/hero-section";
 import Link from "next/link";
 
 export default function Home() {
@@ -17,8 +18,7 @@ export default function Home() {
             <AuthButton />
           </div>
         </nav>
-
-        <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16"></footer>
+        <HeroSection />
       </div>
     </main>
   );
