@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { DeleteUserDialog } from "@/components/delete-user-dialog";
+import { WideCard } from "@/components/ui/wide-card";
 import {
   Card,
   CardContent,
@@ -11,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AddAdminUserForm } from "./add-admin-user-form";
+import { AddAdminUserForm } from "../../components/add-admin-user-form";
 interface AdminUser {
   id: string;
   dni_administrativo: string;
@@ -61,7 +62,7 @@ export function TableUsersAdmin() {
     try {
       console.log("Llamando a API delete-user con:", userId); // Debug
 
-      const response = await fetch("/api/delete-user", {
+      const response = await fetch("/api/user/delete-user", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -153,7 +154,8 @@ export function TableUsersAdmin() {
 
   return (
     <>
-      <Card className="w-full max-w-7xl mx-auto">
+      <Card className="w-full max-w-[150vw] mx-auto">
+        {" "}
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -162,9 +164,9 @@ export function TableUsersAdmin() {
                 Gestiona los usuarios con permisos administrativos del sistema
               </CardDescription>
             </div>
-            <AddAdminUserForm onUserAdded={loadAdminUsers} />
           </div>
         </CardHeader>
+        <AddAdminUserForm onUserAdded={loadAdminUsers} />
         <CardContent className="p-6">
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
@@ -245,7 +247,6 @@ export function TableUsersAdmin() {
           </div>
         </CardContent>
       </Card>
-
       {/* Dialog de confirmación */}
       <DeleteUserDialog
         open={deleteDialog.open}
