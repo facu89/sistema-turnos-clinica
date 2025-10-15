@@ -3,3 +3,4 @@
 - [x] app\paciente\dashboard\StatCards.tsx - conectar bien a mock data aunque sea para que muestre datos dinamicos
 - [ ] app\paciente\dashboard\StatCards.tsx - arreglar estetica de la hora 
 - [ ] armar hook MandarEmail
+- [ ] app\administrativo\dashboard\FiltrosTurnos.tsx - hacer que filtre los turnos

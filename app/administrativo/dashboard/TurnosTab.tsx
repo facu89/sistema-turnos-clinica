@@ -4,47 +4,53 @@ import { Button } from "@/components/ui/button"
 import { TabsContent } from "@/components/ui/tabs"
 import { Clock } from "lucide-react"
 import {turnosAgendados } from '@/app/data/Info'
+import { pacientes } from '../../data/Info';
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
+import FiltrosTurnos from './FiltrosTurnos';
 
 export const TurnosTab = () => {
   return (
+    <>
+      
+
     <TabsContent value="turnos" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">Gestión de Turnos</h2>
-              
             </div>
-
-            <div className="grid gap-4">
-              {turnosAgendados.map((turno) => (
-                <Card key={turno.id}>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="bg-primary/10 p-2 rounded-lg">
-                          <Clock className="h-4 w-4 text-primary" />
-                        </div>
-                        <div>
-                          <p className="font-medium">{turno.paciente}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {turno.medico} - {turno.hora}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        
-                        <Button
+<FiltrosTurnos></FiltrosTurnos>
+    <Table className="w-full text-sm">
+      <TableHeader>
+        <TableRow>
+          <TableHead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Paciente</TableHead>
+          <TableHead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Médico</TableHead>
+          <TableHead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Fecha</TableHead>
+          <TableHead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Hora</TableHead>
+          <TableHead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Consultorio</TableHead>
+          <TableHead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"> Acciones</TableHead>
+        
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {turnosAgendados.map((turno) => (
+          <TableRow key={turno.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <TableCell>{turno.paciente}</TableCell>
+            <TableCell>{turno.medico}</TableCell>
+            <TableCell>{turno.fecha}</TableCell>
+            <TableCell>{turno.hora}</TableCell>
+            <TableCell>{turno.direccion}</TableCell>
+            <TableCell>  <Button
                           variant="outline"
                           size="sm"
                           onClick={() => (window.location.href = `/admin/turnos/${turno.id}`)}
                         >
                           Ver Detalle
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                        </Button></TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
           </TabsContent>
+    </>
 
   )
 }

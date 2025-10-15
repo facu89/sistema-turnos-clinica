@@ -7,6 +7,7 @@ export const turnosAgendados = [
     hora: "10:30",
     direccion: "Consultorio 201",
     paciente: "María García",
+    consultorio: "201",
   },
   {
     id: 2,
@@ -16,6 +17,9 @@ export const turnosAgendados = [
     hora: "14:00",
     direccion: "Consultorio 105",
     paciente: "Juan Pérez",
+    consultorio: "201",
+
+
   },
   {
     id: 3,
