@@ -7,17 +7,20 @@ import {
   Users
 } from "lucide-react"
 import { pacientes } from '@/app/data/Info'//simula bd
+import { Input } from '@/components/ui/input'
 
 const PacienteTab = () => {
   return (
     <TabsContent value="pacientes" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">Gestión de Pacientes</h2>
+              <section className='flex gap-2'>
+              <Input type="text" placeholder="Buscar paciente..." className="w-45" />
               <Button onClick={() => (window.location.href = "/admin/pacientes")}>
                 <Users className="h-4 w-4 mr-2" />
-                Buscar Paciente 
                 {/* aca habria que armar lafuncionalidad */}
               </Button> 
+              </section>
             </div>
 
             <div className="grid gap-4">
@@ -40,13 +43,6 @@ const PacienteTab = () => {
                         <Badge variant={paciente.ausencias > 1 ? "destructive" : "secondary"}>
                           {paciente.ausencias} ausencias
                         </Badge>
-                        {/* <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => (window.location.href = `/admin/pacientes/${paciente.id}`)}
-                        >
-                          Ver Historial
-                        </Button> */}
                       </div>
                     </div>
                   </CardContent>
