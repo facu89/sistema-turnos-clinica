@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { DeleteUserDialog } from "@/components/delete-user-dialog";
-import { WideCard } from "@/components/ui/wide-card";
 import {
   Card,
   CardContent,
@@ -12,7 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AddAdminUserForm } from "../../components/add-admin-user-form";
+import { UserSignUpForm } from "@/components/user-sign-up-form";
+
 interface AdminUser {
   id: string;
   dni_administrativo: string;
@@ -22,7 +22,6 @@ interface AdminUser {
   created_at: string;
   nombre: string;
   apellido: string;
-  // Quitar email de aquí
 }
 
 export function TableUsersAdmin() {
@@ -40,7 +39,73 @@ export function TableUsersAdmin() {
 
   const supabase = createClient();
 
-  // Función para abrir el dialog de confirmación
+  const fieldConfigs = [
+    {
+      name: "email",
+      label: "Email",
+      type: "email",
+      required: true,
+      placeholder: "usuario@ejemplo.com",
+    },
+    {
+      name: "password",
+      label: "Contraseña",
+      type: "password",
+      required: true,
+      placeholder: "Mínimo 6 caracteres",
+    },
+    {
+      name: "repeatPassword",
+      label: "Repetir Contraseña",
+      type: "password",
+      required: true,
+      placeholder: "Confirmar contraseña",
+    },
+    {
+      name: "firstName",
+      label: "Nombre",
+      type: "text",
+      required: true,
+      placeholder: "Nombre",
+    },
+    {
+      name: "lastName",
+      label: "Apellido",
+      type: "text",
+      required: true,
+      placeholder: "Apellido",
+    },
+    {
+      name: "dni",
+      label: "DNI",
+      type: "text",
+      required: true,
+      placeholder: "12345678",
+    },
+    {
+      name: "phone",
+      label: "Teléfono",
+      type: "tel",
+      required: false,
+      placeholder: "+54 9 11 1234-5678",
+    },
+    {
+      name: "birthDate",
+      label: "Fecha de Nacimiento",
+      type: "date",
+      required: false,
+    },
+  ];
+
+  const fieldMappings = {
+    email: "email",
+    firstName: "nombre",
+    lastName: "apellido",
+    dni: "dni_administrativo",
+    phone: "telefono",
+    birthDate: "fecha_nacimiento",
+  };
+
   const openDeleteDialog = (userId: string, userName: string) => {
     setDeleteDialog({
       open: true,
@@ -49,7 +114,6 @@ export function TableUsersAdmin() {
     });
   };
 
-  // Función para cerrar el dialog
   const closeDeleteDialog = () => {
     setDeleteDialog({
       open: false,
@@ -60,8 +124,6 @@ export function TableUsersAdmin() {
 
   const deleteUserFromAuth = async (userId: string) => {
     try {
-      console.log("Llamando a API delete-user con:", userId); // Debug
-
       const response = await fetch("/api/administrativo", {
         method: "DELETE",
         headers: {
@@ -70,16 +132,12 @@ export function TableUsersAdmin() {
         body: JSON.stringify({ userId }),
       });
 
-      console.log("Response status:", response.status); // Debug
-
       if (!response.ok) {
         const errorText = await response.text();
-        console.log("Error response:", errorText); // Debug
         throw new Error(`Error ${response.status}: ${errorText}`);
       }
 
       const result = await response.json();
-      console.log("Success:", result); // Debug
       return result;
     } catch (error) {
       console.error("Error en deleteUserFromAuth:", error);
@@ -92,11 +150,7 @@ export function TableUsersAdmin() {
       setIsDeleting(true);
       setError(null);
 
-      // 1. PRIMERO eliminar de auth.users (esto puede activar CASCADE)
       await deleteUserFromAuth(userId);
-      console.log("Usuario eliminado de auth.users:", userId);
-
-      console.log("Usuario administrativo eliminado completamente:", userId);
       loadAdminUsers();
       closeDeleteDialog();
     } catch (error: unknown) {
@@ -119,7 +173,6 @@ export function TableUsersAdmin() {
       setIsLoading(true);
       setError(null);
 
-      // Solo consultar profiles_administrativos (sin JOIN a auth.users)
       const { data, error } = await supabase
         .from("profiles_administrativos")
         .select("*")
@@ -154,8 +207,7 @@ export function TableUsersAdmin() {
 
   return (
     <>
-      <Card className="w-full max-w-[150vw] mx-auto">
-        {" "}
+      <Card className="w-full !max-w-none mx-auto">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -164,9 +216,22 @@ export function TableUsersAdmin() {
                 Gestiona los usuarios con permisos administrativos del sistema
               </CardDescription>
             </div>
+
+            <UserSignUpForm
+              onUserAdded={loadAdminUsers}
+              userType="Administrativo"
+              tableName="profiles_administrativos"
+              fieldConfigs={fieldConfigs}
+              uniqueField="dni_administrativo" // ← Campo de la DB
+              uniqueFieldMapping="dni" // ← Campo del formulario
+              fieldMappings={fieldMappings}
+              dialogTitle="Agregar Usuario Administrativo"
+              dialogDescription="Crea un nuevo usuario con permisos administrativos"
+              buttonLabel="Agregar Administrativo"
+            />
           </div>
         </CardHeader>
-        <AddAdminUserForm onUserAdded={loadAdminUsers} />
+
         <CardContent className="p-6">
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
@@ -247,7 +312,7 @@ export function TableUsersAdmin() {
           </div>
         </CardContent>
       </Card>
-      {/* Dialog de confirmación */}
+
       <DeleteUserDialog
         open={deleteDialog.open}
         onOpenChange={(open) => !open && closeDeleteDialog()}
