@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { TabsContent } from "@/components/ui/tabs"
@@ -9,6 +9,37 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import FiltrosTurnos from './FiltrosTurnos';
 
 export const TurnosTab = () => {
+  const [filters, setFilters] = useState<{medico?: string; fechaInicio?: string; fechaFin?: string}>({});
+
+  const filteredTurnos = useMemo(() => {
+    return turnosAgendados.filter((turno) => {
+      if (filters.medico && filters.medico !== '' && turno.medico !== filters.medico) {
+        return false;
+      }
+
+      if ((filters.fechaInicio && filters.fechaInicio !== '') || (filters.fechaFin && filters.fechaFin !== '')) {
+        const turnoDate = new Date(turno.fecha);
+
+        if (filters.fechaInicio && filters.fechaInicio !== '') {
+          const start = new Date(filters.fechaInicio);
+          
+          start.setHours(0,0,0,0);
+          turnoDate.setHours(12,0,0,0);
+          if (turnoDate < start) return false;
+        }
+
+        if (filters.fechaFin && filters.fechaFin !== '') {
+          const end = new Date(filters.fechaFin);
+          end.setHours(23,59,59,999);
+          turnoDate.setHours(12,0,0,0);
+          if (turnoDate > end) return false;
+        }
+      }
+
+      return true;
+    });
+  }, [filters]);
+
   return (
     <>
       
@@ -17,7 +48,7 @@ export const TurnosTab = () => {
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">Gestión de Turnos</h2>
             </div>
-<FiltrosTurnos></FiltrosTurnos>
+      <FiltrosTurnos filters={filters} onChange={setFilters} />
     <Table className="w-full text-sm">
       <TableHeader>
         <TableRow>
@@ -31,7 +62,7 @@ export const TurnosTab = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {turnosAgendados.map((turno) => (
+  {filteredTurnos.map((turno) => (
           <TableRow key={turno.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
             <TableCell>{turno.paciente}</TableCell>
             <TableCell>{turno.medico}</TableCell>
