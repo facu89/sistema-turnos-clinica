@@ -84,47 +84,26 @@ export function AddAdminUserForm({ onUserAdded }: AddAdminUserFormProps) {
       }
 
       // 2. Crear el usuario en auth.users (Supabase maneja email duplicados automáticamente)
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: email.trim().toLowerCase(),
-        password,
-        options: {
-          emailRedirectTo: undefined, // Sin confirmación de email
+      const response = await fetch("/api/administrativo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          password,
+          firstName,
+          lastName,
+          dni,
+          phone,
+          birthDate,
+        }),
       });
 
-      if (authError) {
-        throw new Error("Error al crear usuario: " + authError.message);
-      }
-
-      if (!authData.user) {
-        throw new Error("No se pudo crear el usuario");
-      }
-
-      console.log("Usuario creado en auth.users:", authData.user.id);
-
-      // 3. Crear El perfil administrativo (SIN email)
-      const { error: profileError } = await supabase
-        .from("profiles_administrativos")
-        .insert({
-          id: authData.user.id, // Referencia al user de auth
-          email: email,
-          legajo_administrativo: "00" + dni, // Usar el ID del usuario como legajo
-          nombre: firstName,
-          apellido: lastName,
-          dni_administrativo: dni,
-          telefono: phone || null,
-          fecha_nacimiento: birthDate || null,
-          tipo_usuario: "Administrativo",
-        });
-
-      if (profileError) {
-        console.error("Error al crear perfil:", profileError);
-
-        if (profileError.code === "23505") {
-          setError("El DNI ya está registrado en el sistema.");
-        } else {
-          setError(`Error al crear perfil: ${profileError.message}`);
-        }
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error en la creación del usuario:", errorText);
+        setError("Error al crear usuario: " + errorText);
         setIsLoading(false);
         return;
       }
