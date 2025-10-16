@@ -62,7 +62,7 @@ export function TableUsersAdmin() {
     try {
       console.log("Llamando a API delete-user con:", userId); // Debug
 
-      const response = await fetch("/api/user/delete-user", {
+      const response = await fetch("/api/administrativo", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
