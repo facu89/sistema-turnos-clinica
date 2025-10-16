@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TabsContent } from "@/components/ui/tabs";
 import { Users } from "lucide-react";
-// import { pacientes } from "@/app/data/Info"; //simula bd
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Input } from '@/components/ui/input'
 
 async function getPacientes() {
@@ -28,28 +27,43 @@ async function getPacientes() {
 }
 
 export default function PacienteTab() {
-  const [pacientes, setPacientes] = useState([]);
+  const [allPacientes, setAllPacientes] = useState<any[]>([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchPacientes = async () => {
       const data = await getPacientes();
-      setPacientes(data);
+      setAllPacientes(Array.isArray(data) ? data : []);
     };
 
     fetchPacientes();
   }, []);
+
+  const pacientes = useMemo(() => {
+    if (!search) return allPacientes;
+    const q = search.toLowerCase();
+    return allPacientes.filter((p: any) =>
+      (p.nombre || "").toLowerCase().includes(q) ||
+      (p.email || "").toLowerCase().includes(q) ||
+      String(p.dni || "").toLowerCase().includes(q) ||
+      String(p.telefono || "").toLowerCase().includes(q)
+    );
+  }, [search, allPacientes]);
 
   return (
     <TabsContent value="pacientes" className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Gestión de Pacientes</h2>
         <section className='flex gap-2'>
-              <Input type="text" placeholder="Buscar paciente..." className="w-45" />
-              <Button onClick={() => (window.location.href = "/admin/pacientes")}>
-                <Users className="h-4 w-4 mr-2" />
-                {/* aca habria que armar lafuncionalidad */}
-              </Button> 
-              </section>
+          <Input
+            type="text"
+            placeholder="Buscar paciente..."
+            className="w-45"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          
+        </section>
       </div>
 
       <div className="grid gap-4">
@@ -69,19 +83,13 @@ export default function PacienteTab() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge
-                    variant={
-                      paciente.ausencias > 1 ? "destructive" : "secondary"
-                    }
-                  >
+                  <Badge variant={paciente.ausencias > 1 ? "destructive" : "secondary"}>
                     {paciente.ausencias} ausencias
                   </Badge>
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() =>
-                      (window.location.href = `/admin/pacientes/${paciente.id}`)
-                    }
+                    onClick={() => (window.location.href = `/admin/pacientes/${paciente.id}`)}
                   >
                     Ver Historial
                   </Button>
