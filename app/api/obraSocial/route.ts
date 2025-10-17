@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
     const insertData = {
       descripcion: data.descripcion,
       telefono_contacto: data.telefono_contacto || null,
-      sitioweb: data.sitioweb || null,
+      sitio_web: data.sitioweb || null,
       fecha_cambio_estado: data.fecha_vigencia,
       estado: estado,
     };
@@ -130,6 +130,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  //No uso delete, solo cambio el estado de la obra entre pendiente, habilitada deshabilitada
   try {
     const body = await request.json();
     const { id, estado, fecha_vigencia } = body;
@@ -147,8 +148,13 @@ export async function PUT(request: NextRequest) {
         estado: "Pendiente",
       };
     } else if (estado) {
+      await supabaseAdmin
+        .from("turno")
+        .update({ estado_turno: "Pendiente de pago" })
+        .eq("id_obra", id);
       // Caso: Cambio directo de estado (deshabilitar)
       updateData = { estado };
+      await supabaseAdmin.from("convenio").delete().eq("id_obra", id);
     } else {
       return NextResponse.json(
         { error: "Estado o fecha de vigencia son requeridos" },
