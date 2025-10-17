@@ -8,7 +8,7 @@ const supabase = createClient(
 
 //Obtengo los perfiles que son tipo "Paciente"
 export async function GET(request: NextRequest){
-    console.log("EndPOint llamdo");
+
     const {data, error} = await supabase.from("profiles").select("*").eq("tipo_usuario","Paciente");
 
     if(error){
