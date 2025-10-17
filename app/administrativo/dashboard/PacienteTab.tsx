@@ -89,7 +89,7 @@ export default function PacienteTab() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => (window.location.href = `/admin/pacientes/${paciente.id}`)}
+                    onClick={() => (window.location.href = `/administrativo/paciente/${paciente.id}/historial`)}
                   >
                     Ver Historial
                   </Button>
