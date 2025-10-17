@@ -3,7 +3,7 @@ import { useState } from "react"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { TurnosTab } from './TurnosTab'
 import PacienteTab from './PacienteTab'
-import { MedicoTab } from './MedicoTab'
+import  MedicoTab  from './MedicoTab'
 import { ObraSocialTab } from './ObraSocialTab'
 import { ReportesTab } from './ReportesTab'
 

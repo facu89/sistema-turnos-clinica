@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import { useState,useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,7 +11,39 @@ import {
   Heart,
 } from "lucide-react";
 
-export const MedicoTab = () => {
+
+
+async function getMedicos() {
+  try {
+    const response = await fetch("/api/medico", {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener medicos");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error: ", error);
+    return [];
+  }
+}
+
+export default function  MedicoTab  () {
+ const [allMedicos, setAllMedicos] = useState<any[]>([]);
+  const [search, setSearch] = useState("");
+
+   useEffect(() => {
+      const fetchMedicos = async () => {
+        const data = await getMedicos();
+        setAllMedicos(Array.isArray(data) ? data : []);
+      };
+  
+      fetchMedicos();
+    }, []);
+  
   return (
     <TabsContent value="medicos" className="space-y-6">
       <div className="flex justify-between items-center">
@@ -20,29 +55,7 @@ export const MedicoTab = () => {
       </div>
 
       <div className="grid gap-4">
-        {[
-          {
-            id: 1,
-            nombre: "Dr. Carlos López",
-            especialidad: "Cardiología",
-            estado: "activo",
-            agenda: true,
-          },
-          {
-            id: 2,
-            nombre: "Dra. Ana Martínez",
-            especialidad: "Pediatría",
-            estado: "activo",
-            agenda: true,
-          },
-          {
-            id: 3,
-            nombre: "Dr. Luis Rodríguez",
-            especialidad: "Traumatología",
-            estado: "inactivo",
-            agenda: false,
-          },
-        ].map((medico) => (
+        {allMedicos.map((medico) => (
           <Card key={medico.id}>
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
@@ -51,7 +64,7 @@ export const MedicoTab = () => {
                     <Heart className="h-4 w-4 text-accent" />
                   </div>
                   <div>
-                    <p className="font-medium">{medico.nombre}</p>
+                    <p className="font-medium">{medico.nombre} {medico.apellido}</p>
                     <p className="text-sm text-muted-foreground">
                       {medico.especialidad}
                     </p>
