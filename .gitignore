@@ -19,7 +19,7 @@ yarn-error.log*
 # env files
 .env*
 
-# vercel
+# vercelyarn add @radix-ui/react-dialog
 .vercel
 
 # typescript

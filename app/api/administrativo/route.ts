@@ -28,23 +28,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: authError.message }, { status: 500 });
     }
 
-    console.log(" Usuario eliminado de auth.users:", userId);
-
     // 2. DESPUÉS eliminar de profiles_administrativos (por si acaso CASCADE no funcionó)
-    const { error: profileError } = await supabaseAdmin
-      .from("profiles_administrativos")
-      .delete()
-      .eq("id", userId);
-
-    if (profileError) {
-      console.error(
-        " Error eliminando perfil (puede ser normal si ya se eliminó por CASCADE):",
-        profileError
-      );
-      // No retornar error aquí, porque el usuario principal ya se eliminó exitosamente
-    } else {
-      console.log(" Usuario eliminado de profiles_administrativos:", userId);
-    }
 
     console.log(" Usuario eliminado completamente");
     return NextResponse.json({ success: true });
