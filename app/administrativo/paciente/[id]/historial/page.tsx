@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SinAusencias from "@/components/no-abscens";
 
 export default function HistorialAusencias({ params }: { params: { id: string } }) {
   const [data, setData] = useState<any>(null);
@@ -47,6 +48,9 @@ return (
         <h2 className="text-2xl font-bold text-gray-700 mb-6">
             Historial de ausencias de {data.paciente.nombre} {data.paciente.apellido}
         </h2>
+        {data.ausencias.length === 0 ? (
+          <SinAusencias/>
+        ) : (
         <div className="overflow-x-auto">
             <table className="table-auto border-collapse border border-gray-300 rounded-lg shadow-lg bg-white">
                 <thead>
@@ -69,7 +73,9 @@ return (
                 </tbody>
             </table>
         </div>
+        )}
     </div>
     </div>
+    
   );
 }
