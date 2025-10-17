@@ -145,7 +145,7 @@ export default function PacienteDashboard({ paciente }: any) {
       {/* Header */}
       <HeaderPaciente></HeaderPaciente>
       <div className="container mx-auto px-4 py-6">
-        <StatCards turnos={turnosAgendados} paciente={ paciente }></StatCards>
+        <StatCards paciente={ paciente }></StatCards>
         {/* Main Content */}
         <Tabs
           value={activeTab}
@@ -159,7 +159,7 @@ export default function PacienteDashboard({ paciente }: any) {
             {/* <TabsTrigger value="historial">Historial</TabsTrigger> */}
           </TabsList>
 
-          <TurnosTabPac></TurnosTabPac>
+          <TurnosTabPac paciente= {paciente}></TurnosTabPac>
           <TurnosLibres></TurnosLibres>
           <PerfilTab contactoPaciente= { paciente }></PerfilTab>
         </Tabs>
