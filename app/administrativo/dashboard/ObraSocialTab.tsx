@@ -68,16 +68,21 @@ export const ObraSocialTab = () => {
     }
   };
 
-  const handleDeshabilitar = async (id_obra: string) => {
+  const handleDeshabilitar = async (id_obra: string, descripcion: string) => {
     try {
       setIsProcessing(true);
-
+      console.log("Deshabilitando obra social:", id_obra, descripcion);
       const response = await fetch(`/api/obraSocial`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: id_obra, estado: "Deshabilitado" }),
+        body: JSON.stringify({
+          id: id_obra,
+          estado: "Deshabilitado",
+          fecha_vigencia: null,
+          descripcion,
+        }),
       });
 
       if (response.ok) {
@@ -242,7 +247,9 @@ export const ObraSocialTab = () => {
                     <Button
                       variant="destructive"
                       size="sm"
-                      onClick={() => handleDeshabilitar(obra.id_obra)}
+                      onClick={() =>
+                        handleDeshabilitar(obra.id_obra, obra.descripcion)
+                      }
                       disabled={isProcessing}
                     >
                       Deshabilitar

@@ -8,8 +8,8 @@ const supabase = createClient(
 
 //Obtengo los perfiles que son tipo "Paciente"
 export async function GET(request: NextRequest){
-
-    const {data, error} = await supabase.from("profiles").select("*").eq("tipo_usuario","Paciente");
+    console.log("EndPoint llamado");
+    const {data, error} = await supabase.from("medico").select("*");
 
     if(error){
         return NextResponse.json({error: error.message}, {status: 400});

@@ -1,17 +1,47 @@
 import React from 'react'
-import { useState } from "react";
-import { turnosAgendados, turnosDisponibles } from "../../../data/Info";
-import {  Edit, X } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { useState, useEffect } from "react";
+import { turnosDisponibles } from "../../../data/Info";
+import { Edit, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModificarTurno } from './ModificarTurno';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
 
-export const ListarTurnosAgendados = () => {
+export const ListarTurnosAgendados = ({ paciente }: any) => {
+     const [turnosAgendados, setTurnosAgendados] = useState<any[]>([]);
+     const [isLoading, setIsLoading] = useState(true);
+
+
+     async function getTurnosPaciente(dniPaciente: string) {
+          try {
+               const response = await fetch(`/api/turnos?dni_paciente=${dniPaciente}`, {
+                    cache: "no-store",
+               });
+               if (!response.ok) throw new Error("Error al obtener turnos");
+               const data = await response.json();
+               return Array.isArray(data) ? data.sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime()) : [];
+          } catch (error) {
+               console.error("Error: ", error);
+               return [];
+          }
+     }
+
+     useEffect(() => {
+          const loadTurnos = async () => {
+               setIsLoading(true);
+               if (paciente?.dni_paciente) {
+                    const data = await getTurnosPaciente(paciente.dni_paciente);
+                    setTurnos(data);
+               }
+               setIsLoading(false);
+          };
+          loadTurnos();
+     }, [paciente?.dni_paciente]);
+
+
      const [filtroMedico, setFiltroMedico] = useState("");
      const [filtroEspecialidad, setFiltroEspecialidad] = useState("");
      const [turnoAModificar, setTurnoAModificar] = useState<any>(null);
-     const [turnos, setTurnosAgendados] = useState(turnosAgendados);
+     const [turnos, setTurnos] = useState(turnosAgendados);
 
      // Filtrar turnos según los filtros seleccionados y que estén disponibles
      const turnosFiltrados = turnosDisponibles.filter((turno) => {
@@ -40,12 +70,12 @@ export const ListarTurnosAgendados = () => {
 
      // Función para cancelar turno
      const cancelarTurno = (id: number) => {
-          setTurnosAgendados((prev) => prev.filter((turno) => turno.id !== id));
+          setTurnos((prev) => prev.filter((turno) => turno.id !== id));
      };
 
      // Función para seleccionar un turno disponible y modificar el turno agendado
      const seleccionarNuevoTurno = (nuevoTurno: any) => {
-          setTurnosAgendados((prev) =>
+          setTurnos((prev) =>
                prev.map((t) =>
                     t.id === turnoAModificar.id
                          ? { ...t, fecha: nuevoTurno.fecha, hora: nuevoTurno.hora }
@@ -78,7 +108,7 @@ export const ListarTurnosAgendados = () => {
                          <TableHead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Hora</TableHead>
                          <TableHead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Consultorio</TableHead>
                          <TableHead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Acciones</TableHead>
-                    
+
                     </TableRow>
                </TableHeader>
                <TableBody>
@@ -107,13 +137,13 @@ export const ListarTurnosAgendados = () => {
                                              <X className="h-4 w-4 mr-1" />
                                              Cancelar
                                         </Button>
-                                          <Button
-                                                                  variant="outline"
-                                                                  size="sm"
-                                                                  onClick={() => (window.location.href = `/admin/turnos/${turno.id}`)}
-                                                                >
-                                                                  Ver Detalle
-                                                                </Button>
+                                        <Button
+                                             variant="outline"
+                                             size="sm"
+                                             onClick={() => (window.location.href = `/admin/turnos/${turno.id}`)}
+                                        >
+                                             Ver Detalle
+                                        </Button>
                                    </div>
                               </TableCell>
 
@@ -128,7 +158,7 @@ export const ListarTurnosAgendados = () => {
                     )}
                </TableBody>
           </Table>
-     
+
      )
 }
 

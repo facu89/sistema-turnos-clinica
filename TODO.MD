@@ -1,8 +1,10 @@
-- [ ] app\adminsitrador\dashboard\PacienteTab.tsx - Armar funcionalidad de buscar pacientes
+- [x] app\adminsitrador\dashboard\PacienteTab.tsx - Armar funcionalidad de buscar pacientes
 - [x] app\paciente\dashboard\PerfilTab.tsx - conectar bien a mock data aunque sea para que muestre datos dinamicos
 - [x] app\paciente\dashboard\StatCards.tsx - conectar bien a mock data aunque sea para que muestre datos dinamicos
+- [x] app\administrativo\dashboard\FiltrosTurnos.tsx - hacer que filtre los turnos
+- [x] Hacer este formulario reutilziable path relativa: components\add-admin-user-form.tsx
 - [ ] app\paciente\dashboard\StatCards.tsx - arreglar estetica de la hora 
 - [ ] armar hook MandarEmail
-- [x] app\administrativo\dashboard\FiltrosTurnos.tsx - hacer que filtre los turnos
 - [ ] app\paciente\dashboard\StatCards.tsx - arreglar estetica de la hora
-- [x] Hacer este formulario reutilziable path relativa: components\add-admin-user-form.tsx
+- [ ] MedicoTab y PacienteTab son MUY parecidas, una vez hecho todo podemos arreglar eso.
+- [ ] si hay tiempo podemos agregar el buscar en las tab de  
