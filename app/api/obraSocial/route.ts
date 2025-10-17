@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
-
+import { notificarCambioEstadoTurno } from "@/hooks/obra-social/notifica-pendiente-pago";
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -11,6 +11,13 @@ const supabaseAdmin = createClient(
     },
   }
 );
+type Turno = {
+  cod_turno: number;
+  fecha_hora_turno: string;
+  especialidad?: {
+    descripcion: string;
+  };
+};
 
 export async function GET() {
   try {
@@ -130,11 +137,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  //No uso delete, solo cambio el estado de la obra entre pendiente, habilitada deshabilitada
   try {
     const body = await request.json();
-    const { id, estado, fecha_vigencia } = body;
-
+    const { id, estado, fecha_vigencia, descripcion } = body;
     if (!id) {
       return NextResponse.json({ error: "ID es requerido" }, { status: 400 });
     }
@@ -142,19 +147,69 @@ export async function PUT(request: NextRequest) {
     let updateData: any = {};
 
     if (fecha_vigencia) {
-      // Caso: Programar habilitación con nueva fecha
       updateData = {
         fecha_cambio_estado: fecha_vigencia,
         estado: "Pendiente",
       };
     } else if (estado) {
-      await supabaseAdmin
-        .from("turno")
-        .update({ estado_turno: "Pendiente de pago" })
-        .eq("id_obra", id);
-      // Caso: Cambio directo de estado (deshabilitar)
+      if (estado === "Deshabilitado") {
+        // Obtener turnos afectados ANTES de actualizar
+
+        const { data: turnosAfectados, error } = await supabaseAdmin
+          .from("turno")
+          .select(
+            `
+      cod_turno,
+      fecha_hora_turno,
+      id_especialidad
+    `
+          )
+          .eq("id_obra", id);
+
+        console.log(
+          "Turnos afectados:",
+          JSON.stringify(turnosAfectados, null, 2)
+        );
+        await supabaseAdmin
+          .from("turno")
+          .update({ estado_turno: "Pendiente de pago" })
+          .eq("id_obra", id);
+
+        // Obtener nombre de obra social
+
+        if (turnosAfectados && turnosAfectados.length > 0) {
+          for (const turno of turnosAfectados) {
+            try {
+              const especialidad = await supabaseAdmin
+                .from("especialidad")
+                .select("descripcion")
+                .eq("id_especialidad", turno.id_especialidad)
+                .single();
+
+              await notificarCambioEstadoTurno({
+                idTurno: turno.cod_turno,
+                descripcion: descripcion || "Obra social",
+                nuevoEstado: "Pendiente de pago",
+                fechaHoraTurno: turno.fecha_hora_turno, // Puedes obtener la fecha y hora real si es necesario
+
+                especialidad:
+                  especialidad.data?.descripcion ||
+                  "Especialidad no disponible",
+              });
+            } catch (notificationError) {
+              console.error(
+                `Error notificando turno ${turno.cod_turno}:`,
+                notificationError
+              );
+            }
+          }
+        }
+
+        // Eliminar convenios
+        await supabaseAdmin.from("convenio").delete().eq("id_obra", id);
+      }
+
       updateData = { estado };
-      await supabaseAdmin.from("convenio").delete().eq("id_obra", id);
     } else {
       return NextResponse.json(
         { error: "Estado o fecha de vigencia son requeridos" },
@@ -168,13 +223,11 @@ export async function PUT(request: NextRequest) {
       .eq("id_obra", id);
 
     if (error) {
-      console.error("Error en PUT:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error completo en PUT:", error);
     return NextResponse.json(
       { error: "Error interno del servidor" },
       { status: 500 }
